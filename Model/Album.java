@@ -19,7 +19,7 @@ public class Album {
         this.genre = genre;
     }
     
-    public int getId() {
+    public int getID() {
         return this.id;
     }
     public String getTitle() {

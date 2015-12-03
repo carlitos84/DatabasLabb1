@@ -36,7 +36,5 @@ public class Artist {
     public String getNationality()
     {
         return this.Nationality;
-    }
-
-      
+    }     
 }

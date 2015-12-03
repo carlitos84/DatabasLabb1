@@ -19,5 +19,13 @@ public class User {
         this.name = name;
     }
     
+    public int getID()
+    {
+        return this.ID;
+    }
     
+    public String getName()
+    {
+        return this.name;
+    }   
 }

@@ -25,9 +25,15 @@ public class RateList {
         rateList.add(rate);
     }
     
-    private ArrayList getList()
+    public void addToRateList(Rate addrate)
+    {
+        rateList.add(addrate);
+    }
+    
+    public ArrayList getList()
     {
         return rateList;
     }
+    
     
 }
