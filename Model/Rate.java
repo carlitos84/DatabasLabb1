@@ -16,8 +16,8 @@ public class Rate {
     private final int albumID;
     public Rate(User user, Album album)
     {
-        this.albumID = album.getId();
-        this.userID = user.getId();
+        this.albumID = album.getID();
+        this.userID = user.getID();
     }
     
 }

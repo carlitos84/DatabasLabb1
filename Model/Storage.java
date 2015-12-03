@@ -16,9 +16,9 @@ public class Storage {
     
     public Storage(User user, Artist artist, Album album)
     {
-        this.userID = user.getId();
+        this.userID = user.getID();
         this.artistID = artist.getID();
-        this.albumID = album.getId();
+        this.albumID = album.getID();
     }
     
     public int getUserID()
