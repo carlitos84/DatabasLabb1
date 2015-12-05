@@ -91,43 +91,70 @@ public class connectionSQL {
         }
     }
     
-    public void addAlbum(String title, String genre, String artistName) {
+    public void addAlbum(String title, String genre, String artistName, int date) {
         
-        if(!checkIfArtisExists(artistName) ) {
-            //Exception bör skapas
+        if(!checkIfArtistExists(artistName) ) {
+            System.out.println("Artist does not exist.");//Endast för test
         }
         else {
-            try{
-                Class.forName("com.mysql.jdbc.Driver");
-                
-                con = DriverManager.getConnection(server, user, pwd);
-                String sqlGetId = "select K_Id from T_Artist where K_Name = ?";
-                PreparedStatement getArtistId = con.prepareStatement(sqlGetId);
-                
-                getArtistId.setString(1, artistName);
-                ResultSet rs = getArtistId.executeQuery();
-                boolean next = rs.next();
-                int artistId = rs.getInt(1);
-                
-                String sql = "insert into T_Album(K_Title, K_Genre, K_MadeBy) "
-                            +"values(?, ?, ?)";
-                PreparedStatement insertAlbum = con.prepareStatement(sql);
-                insertAlbum.setString(1, title);
-                insertAlbum.setString(2, genre);
-                insertAlbum.setInt(3, artistId);
-                int n = insertAlbum.executeUpdate();
-            
-            }catch(Exception e) {}
-            finally {
-                try {
-                    con.close();
-                }catch(SQLException e) {}
+            if(checkIfAlbumExists(title, artistName) ) {
+                System.out.println("Album already exists.");//Endast för test
+            }
+            else {
+                try{
+                    Class.forName("com.mysql.jdbc.Driver");
+                    
+                    con = DriverManager.getConnection(server, user, pwd);                    
+                    con.setAutoCommit(false);
+                    
+                    System.out.println("Getting artist id");//Endast för test
+                    //Get Artist Id that matches artistName
+                    String sqlGetId = "select K_Id from T_Artist where K_Name = ?";
+                    PreparedStatement getArtistId = con.prepareStatement(sqlGetId);
+                    getArtistId.setString(1, artistName);
+                    ResultSet rs = getArtistId.executeQuery();
+                    boolean next = rs.next();
+                    int artistId = rs.getInt(1);
+                    
+                    System.out.println("Inserting row for album");//Endast för test
+                    //Insert row for album in T_Album
+                    String sqlInsertAlbum = "insert into T_Album(K_Title, K_Genre, K_Date) "
+                                +"values(?, ?, ?)";
+                    PreparedStatement insertAlbum = con.prepareStatement(sqlInsertAlbum);
+                    insertAlbum.setString(1, title);
+                    insertAlbum.setString(2, genre);
+                    insertAlbum.setInt(3, date);
+                    int n = insertAlbum.executeUpdate();
+                    
+                    //Fungerar inte
+                    System.out.println("Inserting album in madeBy");//Endast för test
+                    //Insert row in T_MadeBy for album created and artist defined in artistName
+                    String sqlInsertMadeBy = "insert into T_MadeBy(K_ArtistId, K_AlbumId) "
+                                            +"values( (select K_Id from T_Artist where K_Name = ?), "
+                                            +"(select K_Id from K_Album where K_Title = ?) )";
+                    PreparedStatement insertMadeBy = con.prepareStatement(sqlInsertMadeBy);
+                    insertMadeBy.setString(1, artistName);
+                    insertMadeBy.setString(2, title);
+                    insertMadeBy.executeUpdate();
+                    System.out.println("Inserting album in madeBy done");//Endast för test
+                    
+                    con.commit();                    
+                    con.setAutoCommit(true);
+
+                }catch(Exception e) {}
+                    
+                finally {
+                    try {
+                        con.rollback();
+                        con.close();
+                    }catch(SQLException e) {}
+                }
             }
         
         }
     }
     
-    private boolean checkIfArtisExists(String artistName) {
+    private boolean checkIfArtistExists(String artistName) {
         
         boolean artistFound = false;
         try{
@@ -153,5 +180,33 @@ public class connectionSQL {
         }
         
         return artistFound;
+    }
+    
+    private boolean checkIfAlbumExists(String title, String artistName) {
+        boolean albumFound = false;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(server, user, pwd);    
+            
+            String sql = "select count(K_ArtistId) from T_MadeBy where K_Name = ? AND A_Id = "
+                        +"(select K_Id from T_Album where K_Title = ?";
+            PreparedStatement checkArtistExistance = con.prepareStatement(sql);
+            checkArtistExistance.setString(1, artistName);      
+            checkArtistExistance.setString(1, title);  
+            
+            ResultSet rs = checkArtistExistance.executeQuery();
+            
+            boolean next = rs.next();
+            if(rs.getInt(1) > 0) {
+                albumFound = true;
+            }
+            
+        }catch(Exception e) {}
+        finally {
+            try {
+                con.close();
+            }catch(SQLException e) {}
+        }
+        return albumFound;
     }
 }
