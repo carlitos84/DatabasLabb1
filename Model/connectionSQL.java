@@ -131,7 +131,7 @@ public class connectionSQL {
                     //Insert row in T_MadeBy for album created and artist defined in artistName
                     String sqlInsertMadeBy = "insert into T_MadeBy(K_ArtistId, K_AlbumId) "
                                             +"values( (select K_Id from T_Artist where K_Name = ?), "
-                                            +"(select K_Id from K_Album where K_Title = ?) )";
+                                            +"(select K_Id from T_Album where K_Title = ?) )";
                     PreparedStatement insertMadeBy = con.prepareStatement(sqlInsertMadeBy);
                     insertMadeBy.setString(1, artistName);
                     insertMadeBy.setString(2, title);
@@ -141,7 +141,7 @@ public class connectionSQL {
                     con.commit();                    
                     con.setAutoCommit(true);
 
-                }catch(Exception e) {}
+                }catch(Exception e) {System.out.println("Exception");}
                     
                 finally {
                     try {
