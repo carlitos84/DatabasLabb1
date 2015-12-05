@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,5 +58,27 @@ public class connectionSQL {
             }catch(SQLException e) {}
         }
         return artistList;
+    }
+    
+    public void addArtist(String name, String nationality) {
+        
+                
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(server, user, pwd);
+            String sql = "Insert into T_Artist(K_Name, K_Nationality) values(?,?)";
+            
+            PreparedStatement addArtist = con.prepareStatement(sql);
+            addArtist.setString(1, name);
+            addArtist.setString(2, nationality);            
+            
+            int n = addArtist.executeUpdate();
+            
+        }catch(Exception e) {System.out.println("Connection lost");}
+        finally {
+            try{
+                con.close();
+            }catch(SQLException e){}
+        }
     }
 }
