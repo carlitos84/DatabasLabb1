@@ -22,7 +22,9 @@ public class connectionSQL {
     private String database, server, user, pwd;
     private Connection con;
     
-    
+    /**
+     * Default constructor without parameters only for testing
+     */
     public connectionSQL(){
         database = "labb1";
         server = "jdbc:mysql://localhost:3306/" + database;
@@ -34,6 +36,12 @@ public class connectionSQL {
         
     }
     
+    /**
+     * Sets up for connection to database named "labb1" in localhost with 
+     * portnumber 3306. Username and password has to be provided.
+     * @param user Username for database
+     * @param pwd Password for database
+     */
     public connectionSQL(String user, String pwd) {
         database = "labb1";
         server = "jdbc:mysql://localhost:3306/" + database;
@@ -43,6 +51,11 @@ public class connectionSQL {
         con = null;
     }
     
+    /**
+     * Returns ArrayList with artists in database that matches search string.
+     * @param searchString Search string to be searched by.
+     * @return ArrayList<Artist> 
+     */
     public ArrayList<Artist> searchForArtistByName(String searchString) {
         ArrayList<Artist> artistList = new ArrayList<>();
         try {
@@ -69,6 +82,11 @@ public class connectionSQL {
         return artistList;
     }
     
+    /**
+     * Add artist to database
+     * @param name Artist name
+     * @param nationality Artist Nationality
+     */
     public void addArtist(String name, String nationality) {
         
                 
@@ -91,14 +109,22 @@ public class connectionSQL {
         }
     }
     
+    /**
+     * Adds album to database based on parameters. Checks if artist and album 
+     * already exists before and adding the album. 
+     * @param title Title of album
+     * @param genre Genre of album
+     * @param artistName Artist that made the album
+     * @param date Date of release
+     */
     public void addAlbum(String title, String genre, String artistName, int date) {
         
         if(!checkIfArtistExists(artistName) ) {
-            System.out.println("Artist does not exist.");//Endast för test
+            //Bör göra exception
         }
         else {
             if(checkIfAlbumExists(title, artistName) ) {
-                System.out.println("Album already exists.");//Endast för test
+                //Bör göra exception
             }
             else {
                 try{
