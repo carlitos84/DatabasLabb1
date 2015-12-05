@@ -117,10 +117,10 @@ public class connectionSQL {
      * @param artistName Artist that made the album
      * @param date Date of release
      */
-    public void addAlbum(String title, String genre, String artistName, int date) {
+    public void addAlbum(String title, String genre, String artistName, int date) throws ArtistDoesNotExistException {
         
         if(!checkIfArtistExists(artistName) ) {
-            //Bör göra exception
+            throw new ArtistDoesNotExistException(artistName);
         }
         else {
             if(checkIfAlbumExists(title, artistName) ) {
