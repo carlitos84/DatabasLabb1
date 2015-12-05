@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.FXMLController">
+   <bottom>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Add new album" />
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextField layoutX="182.0" layoutY="74.0" onAction="#handleAddAlbumTextFieldEvent" promptText="Album's name" />
+                  <Button layoutX="617.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleAddAlbumButtonEvent" text="Add" />
+                  <MenuButton layoutX="392.0" layoutY="74.0" mnemonicParsing="false" text="Genre">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+                  <MenuButton layoutX="484.0" layoutY="74.0" mnemonicParsing="false" text="Made by">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </bottom>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="19.0" prefWidth="944.0" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="TOP_CENTER" text="Add a new artist">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextField layoutX="189.0" layoutY="60.0" onAction="#handleAddArtistTextFieldEvent" promptText="Artist's name" />
+                  <Button layoutX="612.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleAddArtistButtonEvent" text="Add" />
+                  <MenuButton layoutX="416.0" layoutY="60.0" mnemonicParsing="false" text="Nationality">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Add to database">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+</BorderPane>
