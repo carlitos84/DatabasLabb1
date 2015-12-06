@@ -27,7 +27,7 @@ public class ConnectionSQL {
      */
     public ConnectionSQL(){
         database = "labb1";
-        server = "jdbc:mysql://localhost:3306/" + database;
+        server = "jdbc:mysql://localhost:3306/" +database;
         user = "clientapp";
         pwd = "carlos";
         
@@ -47,6 +47,85 @@ public class ConnectionSQL {
         this.pwd = pwd;
         
         con = null;
+    }
+    /**
+     * Takes a string and searches database for match in artist name or album title.
+     * @param searchString String that is matched with database
+     * @return ArrayList<MadeBy> containing result of search.
+     */
+    public ArrayList<MadeBy> searchForString(String searchString){
+      ArrayList<MadeBy> resultMadeByList = new ArrayList<>();
+      int artistId, albumId;
+      
+      try{
+          Class.forName("com.mysql.jdbc.Driver");
+          
+          con = DriverManager.getConnection(server, user, pwd);
+          
+          String sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
+                       +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
+                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
+          
+          PreparedStatement searchDatabase = con.prepareStatement(sql);
+          
+          ResultSet rs = searchDatabase.executeQuery();
+          
+          while(rs.next()) {
+              artistId = rs.getInt(1);
+              Artist artistTmp = getArtistById(con, artistId);
+              albumId = rs.getInt(2);
+              Album albumTmp = getAlbumById(con, albumId);              
+              resultMadeByList.add(new MadeBy(artistTmp, albumTmp));
+
+          }          
+         
+          return resultMadeByList;
+          
+          
+      }catch(Exception e) {}      
+      
+      return resultMadeByList;
+    }
+    
+    private void testList(ArrayList<MadeBy> resultMadeByList) {
+        for(MadeBy m: resultMadeByList) {
+            System.out.println(m.getArist().getName() +m.getAlbum().getTitle());
+        }
+    }
+    
+    private Artist getArtistById(Connection con, int id) {
+        Artist resultArtist = null;
+        
+        try {
+            String sql = "select * from T_Artist where K_Id = ?";
+            PreparedStatement getArtist = con.prepareStatement(sql);
+            getArtist.setInt(1, id);
+            ResultSet rs = getArtist.executeQuery();
+            
+            if(rs.next() )  {
+                resultArtist = new Artist(rs.getInt(1), rs.getString(2), rs.getString(3));
+            }
+                
+        }catch(Exception e) { }
+        
+        return resultArtist;
+    }
+    private Album getAlbumById(Connection con, int id) {
+        Album resultAlbum = null;
+        
+        try {
+            String sql = "select * from T_Album where K_Id = ?";
+            PreparedStatement getArtist = con.prepareStatement(sql);
+            getArtist.setInt(1, id);
+            ResultSet rs = getArtist.executeQuery();
+            
+            if(rs.next() )  {
+                resultAlbum = new Album(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            }
+                
+        }catch(Exception e) { }
+        
+        return resultAlbum;
     }
     
     /**

@@ -13,15 +13,15 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Santos
  */
 public class Album {    
-    private SimpleStringProperty title, genre, rate, madeby ;
-    private SimpleIntegerProperty id;
+    private SimpleStringProperty title, genre, rate ;
+    private SimpleIntegerProperty id,date;
    
     
-    public Album(int id, String title, String genre, String madeby){
+    public Album(int id, String title, String genre, int date){
         this.id = new SimpleIntegerProperty(id);
         this.title = new SimpleStringProperty(title);
         this.genre = new SimpleStringProperty(genre);
-        this.madeby = new SimpleStringProperty(madeby);
+        this.date = new SimpleIntegerProperty(date);
         this.rate = new SimpleStringProperty("no rate yet");
     }
     
@@ -37,6 +37,7 @@ public class Album {
     public String getRate() {
         return rate.get();
     }
+<<<<<<< HEAD
     
     public void setRate(String setrate) {
         rate.set(setrate);
@@ -45,4 +46,6 @@ public class Album {
     public String GetMadeBy() {
         return madeby.get();
     }
+=======
+>>>>>>> origin/master
 }
