@@ -14,10 +14,25 @@ import java.util.ArrayList;
 public class Rate {
     private final int userID;
     private final int albumID;
-    public Rate(User user, Album album)
+    private final int score;
+    
+    public Rate(User user, Album album, int score)
     {
         this.albumID = album.getID();
         this.userID = user.getID();
+        this.score = score;
+    }
+    
+    public int getUserId() {
+        return userID;
+    }
+    
+    public int getAlbumId() {
+        return albumID;
+    }
+    
+    public int getScore() {
+        return score;
     }
     
 }

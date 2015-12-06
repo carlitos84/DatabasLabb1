@@ -31,8 +31,9 @@ foreign key (K_AlbumId) references T_Album(K_Id)
 );
 
 create table T_Rate
-(K_User integer not null unique, 
-K_Album integer not null unique,
+(K_User integer not null, 
+K_Album integer not null,
+K_Score float(1, 1) not null,
 foreign key (K_User) references T_User(K_Id),
 foreign key (K_Album) references T_Album(K_Id)
 );
@@ -46,4 +47,14 @@ foreign key (K_User) references T_User(K_Id),
 foreign key (K_Artist) references T_Artist(K_Id),
 foreign key (K_Album) references T_Album(K_Id)
 );
+
+delimiter //
+CREATE TRIGGER update_score AFTER INSERT ON T_Rate
+FOR EACH ROW
+BEGIN
+	DECLARE x float;
+    SET x = (select avg(K_Score) from T_Album where K_Album like NEW.K_Album);
+	insert into T_Album(K_Score) value(x);
+
+end //
 commit;

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class handles all querries to server from client. 
  */
 package Model;
 
@@ -49,7 +47,8 @@ public class ConnectionSQL {
         con = null;
     }
     /**
-     * Takes a string and searches database for match in artist name or album title.
+     * Takes a string as parameter and searches database for match with artist 
+     * name or album title. Returns a list containing all matches.
      * @param searchString String that is matched with database
      * @return ArrayList<MadeBy> containing result of search.
      */
@@ -87,6 +86,7 @@ public class ConnectionSQL {
       return resultMadeByList;
     }
     
+    //For testing
     private void testList(ArrayList<MadeBy> resultMadeByList) {
         for(MadeBy m: resultMadeByList) {
             System.out.println(m.getArist().getName() +m.getAlbum().getTitle());
@@ -193,6 +193,16 @@ public class ConnectionSQL {
      * @param genre Genre of album
      * @param artistName Artist that made the album
      * @param date Date of release
+     * @throws ArtistDoesNotExistException If artist doesn´t exist already in database
+     *         
+     */
+    /**
+     * 
+     * @param title
+     * @param genre
+     * @param artistName
+     * @param date
+     * @throws ArtistDoesNotExistException 
      */
     public void addAlbum(String title, String genre, String artistName, int date) throws ArtistDoesNotExistException {
         
@@ -312,4 +322,37 @@ public class ConnectionSQL {
         }
         return albumFound;
     }
+    
+    /**
+     * Rates an album. 
+     * @param userId User id that wants to make a rating
+     * @param albumId The album id tobe rated
+     * @param score User score for the album
+     */
+    public void rateAlbum(int userId, int albumId, int score) {
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(server, user, pwd);
+            
+            con.setAutoCommit(false);
+            String sql = "insert into T_Rate(K_User, K_Album, K_Score) values(?, ?, ?)";
+            PreparedStatement insertScoreSt = con.prepareStatement(sql);
+            insertScoreSt.setInt(1, userId);
+            insertScoreSt.setInt(2, albumId);
+            insertScoreSt.setInt(3, score);
+            
+            int n = insertScoreSt.executeUpdate();
+            con.commit();
+            
+        }catch(Exception e) {}
+        finally {
+            try {
+                con.rollback();
+                con.close();
+            }catch(SQLException e) {}
+        } 
+    }
+    
+    
 }
