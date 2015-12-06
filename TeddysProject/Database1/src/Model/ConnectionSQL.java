@@ -48,38 +48,37 @@ public class ConnectionSQL {
         
         con = null;
     }
-    
+    /**
+     * Takes a string and searches database for match in artist name or album title.
+     * @param searchString String that is matched with database
+     * @return ArrayList<MadeBy> containing result of search.
+     */
     public ArrayList<MadeBy> searchForString(String searchString){
       ArrayList<MadeBy> resultMadeByList = new ArrayList<>();
       int artistId, albumId;
       
       try{
-          Class.forName("org.mysql.jdbc.Driver");
+          Class.forName("com.mysql.jdbc.Driver");
           
           con = DriverManager.getConnection(server, user, pwd);
-          System.out.println("Test");
+          
           String sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
                        +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
                        +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
           
           PreparedStatement searchDatabase = con.prepareStatement(sql);
-          searchDatabase.setString(1, searchString);
-          searchDatabase.setString(2, searchString);            
+          
           ResultSet rs = searchDatabase.executeQuery();
-          System.out.println("Test");
+          
           while(rs.next()) {
               artistId = rs.getInt(1);
               Artist artistTmp = getArtistById(con, artistId);
-              System.out.println(artistTmp.getName());
               albumId = rs.getInt(2);
-              Album albumTmp = getAlbumById(con, albumId);
-              
+              Album albumTmp = getAlbumById(con, albumId);              
               resultMadeByList.add(new MadeBy(artistTmp, albumTmp));
 
-          }
-          
-          testList(resultMadeByList);
-          
+          }          
+         
           return resultMadeByList;
           
           
@@ -88,7 +87,7 @@ public class ConnectionSQL {
       return resultMadeByList;
     }
     
-    public void testList(ArrayList<MadeBy> resultMadeByList) {
+    private void testList(ArrayList<MadeBy> resultMadeByList) {
         for(MadeBy m: resultMadeByList) {
             System.out.println(m.getArist().getName() +m.getAlbum().getTitle());
         }
