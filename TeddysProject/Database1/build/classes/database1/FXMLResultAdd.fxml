@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="866.0" prefWidth="1317.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.testController">
+   <center>
+      <TableView fx:id="albumTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idC" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="genreC" prefWidth="75.0" text="Genre" />
+            <TableColumn fx:id="madebyC" prefWidth="75.0" text="Made By" />
+            <TableColumn fx:id="rateC" prefWidth="75.0" text="Rate" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="titleTF" promptText="Title" />
+                  <TextField fx:id="genreTF" promptText="Genre" />
+                  <TextField fx:id="madebyTF" promptText="Made by" />
+                  <TextField fx:id="rateTF" promptText="Rate" />
+                  <Button fx:id="addB" mnemonicParsing="false" onAction="#handleAddAlbumButton" text="Add" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

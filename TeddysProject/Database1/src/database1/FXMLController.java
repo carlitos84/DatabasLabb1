@@ -12,7 +12,11 @@ import Model.ConnectionSQL;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +27,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
@@ -37,9 +45,12 @@ public class FXMLController implements Initializable{
     private String album;
     private String title;
     private String genre;
+    private String madeby;
+    private String nationality;
     private int date;
     
-    @FXML
+       
+   @FXML
     private Label label;
     @FXML
     private Button button;
@@ -97,16 +108,70 @@ public class FXMLController implements Initializable{
     @FXML
     private void handleSQLquestionAddButtonEvent(ActionEvent event) throws IOException
     {
-               //här hämtas root och stage som vi sedan endast byter scener.
-            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLAddPage.fxml"));
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLResultAdd.fxml"));
             Scene SQLAddScene = new Scene(SQLAddParent);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             mainStage.setScene(SQLAddScene);
             mainStage.show();
     }
     
+    @FXML
+    private void handleSQLquestionRateButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLRateParent = FXMLLoader.load(getClass().getResource("FXMLRatePage.fxml"));
+            Scene SQLRateScene = new Scene(SQLRateParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLRateScene);
+            mainStage.show();
+    }
     
-    //Search object scene:
+    
+    /*
+        rate object scene:
+    */
+     @FXML
+    private void handleRateSearchAlbumButtonEvent(ActionEvent event) throws IOException
+    {
+        if(album.isEmpty())
+        {
+            System.out.println("artist is empty!");
+        }
+        else
+        {
+            ArrayList<Album> resultList;
+            
+            ConnectionSQL con = new ConnectionSQL(username, password);
+            //searxh album
+           
+            Parent SQLRateParent = FXMLLoader.load(getClass().getResource("FXMLRatePage.fxml"));
+            Scene SQLRateScene = new Scene(SQLRateParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLRateScene);
+            
+            System.out.println("Searching...");
+        }
+    }
+    
+    @FXML 
+    private void handleRateSearchAlbumTextFieldEvent(ActionEvent event)
+    {
+        TextField text = (TextField) event.getSource();
+        album = text.getText();
+        System.out.println(album);
+    }
+    
+    @FXML 
+    private void handleRateAlbumEvent(ActionEvent event)
+    {
+        
+    }
+    
+    
+    /*
+        Search object scene:
+    */
      @FXML
     private void handleSearchArtistButtonEvent(ActionEvent event)
     {
@@ -162,7 +227,9 @@ public class FXMLController implements Initializable{
         
     }
     
-    //Add object scene:
+    /*
+        Add object scene:
+    */
     @FXML
     private void handleAddArtistEventButton(ActionEvent event) throws ArtistDoesNotExistException
     {
@@ -172,13 +239,16 @@ public class FXMLController implements Initializable{
         }
         else
         {
-            
             System.out.println("adding...");
             ConnectionSQL con = new ConnectionSQL(username, password);
-            con.addArtist(username, artist);           
             System.out.println(artist + "added");
+            con.addArtist(artist, nationality);           
+            System.out.println(artist + "added");
+            
+            
         }
     }
+
     
     @FXML 
     private void handleAddArtistTextFieldEvent(ActionEvent event)
@@ -188,19 +258,29 @@ public class FXMLController implements Initializable{
         System.out.println(artist);
     }
     
+    @FXML 
+    private void handleAddNationalityTextFieldEvent(ActionEvent event)
+    {
+        TextField text = (TextField) event.getSource();
+        nationality = text.getText();
+        System.out.println(nationality);
+    }
+    
     @FXML
     private void handleAddAlbumEventButton(ActionEvent event) throws ArtistDoesNotExistException
     {
-        if( album.isEmpty())
+        if( title.isEmpty() || genre.isEmpty() || madeby.isEmpty()) //date behövs 
         {
-            System.out.println("album is empty!");
+            System.out.println("a textfield is empty!");
         }
         else
         {
             System.out.println("adding...");
             ConnectionSQL con = new ConnectionSQL(username, password);
-            con.addAlbum(title, genre, artist, date);          
-            System.out.println(album + "added");
+            
+            con.addAlbum(title, genre, madeby, date);          
+            //Add to table         
+            System.out.println(title + " " + genre+ " " +  madeby + " " +  date + " added");
         }     
     }
     
@@ -208,14 +288,37 @@ public class FXMLController implements Initializable{
     private void handleAddAlbumTextFieldEvent(ActionEvent event)
     {
         TextField text = (TextField) event.getSource();
-        album = text.getText();
-        System.out.println(album);
-        
+        title = text.getText();
+        System.out.println(title);        
+    }
+    
+    @FXML 
+    private void handleAddGenreTextFieldEvent(ActionEvent event)
+    {
+        TextField text = (TextField) event.getSource();
+        genre = text.getText();
+        System.out.println(genre);
+    }
+    
+    @FXML 
+    private void handleAddMadeByTextFieldEvent(ActionEvent event)
+    {
+        TextField text = (TextField) event.getSource();
+        madeby = text.getText();
+        System.out.println(madeby);
+    }
+    
+    @FXML 
+    private void handleAddDateTextFieldEvent(ActionEvent event)
+    {
+        TextField text = (TextField) event.getSource();
+        date =  Integer.parseInt(text.getText());
+        System.out.println(date);
     }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
     }
     
 }

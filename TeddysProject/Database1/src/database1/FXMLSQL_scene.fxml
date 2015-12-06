@@ -14,6 +14,7 @@
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleSQLquestionSearchButtonEvent" text="Search" />
             <Button mnemonicParsing="false" onAction="#handleSQLquestionAddButtonEvent" text="Add" />
+            <Button mnemonicParsing="false" onAction="#handleSQLquestionRateButtonEvent" text="Rate" />
          </children>
          <BorderPane.margin>
             <Insets />

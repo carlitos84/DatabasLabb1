@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="905.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.FXMLController">
+   <top>
+      <VBox alignment="CENTER" prefHeight="67.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Rate Album">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="506.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="31.0" prefWidth="92.0" text="Search Album" />
+            <Pane prefHeight="66.0" prefWidth="1250.0">
+               <children>
+                  <TextField layoutX="532.0" layoutY="26.0" onAction="#handleSearchAlbumTextFieldEvent" promptText="Album's name" />
+                  <Button layoutX="732.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleSearchAlbumButtonEvent" text="Search" />
+               </children>
+            </Pane>
+            <VBox prefHeight="449.0" prefWidth="944.0" />
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <TableView editable="true" prefHeight="746.0" prefWidth="1250.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="554.0" text="C1" />
+            <TableColumn minWidth="0.0" prefWidth="102.0" text="C2" />
+        </columns>
+      </TableView>
+   </bottom>
+</BorderPane>

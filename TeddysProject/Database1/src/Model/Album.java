@@ -5,30 +5,40 @@
  */
 package Model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Santos
  */
-public class Album {
-    private int id, rate;
-    private String title, genre;
+public class Album {    
+    private SimpleStringProperty title, genre, rate, madeby ;
+    private SimpleIntegerProperty id;
+   
     
-    public Album(int id, String title, String genre){
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
+    public Album(int id, String title, String genre, String madeby){
+        this.id = new SimpleIntegerProperty(id);
+        this.title = new SimpleStringProperty(title);
+        this.genre = new SimpleStringProperty(genre);
+        this.madeby = new SimpleStringProperty(madeby);
+        this.rate = new SimpleStringProperty("no rate yet");
     }
     
     public int getID() {
-        return this.id;
+        return this.id.get();
     }
     public String getTitle() {
-        return title;
+        return title.get();
     }
     public String getGenre(){
-        return genre;
+        return genre.get();
     }    
-    public int rate() {
-        return rate;
+    public String getRate() {
+        return rate.get();
+    }
+    
+    public String GetMadeBy() {
+        return madeby.get();
     }
 }
