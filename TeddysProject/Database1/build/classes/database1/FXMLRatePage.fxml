@@ -8,38 +8,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="905.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.FXMLController">
-   <top>
-      <VBox alignment="CENTER" prefHeight="67.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="852.0" prefWidth="1071.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.testController">
+   <bottom>
+      <VBox alignment="CENTER" prefHeight="188.0" prefWidth="1071.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Rate Album">
+            <Label text="Rate">
                <font>
-                  <Font name="System Bold" size="34.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <VBox alignment="TOP_CENTER" prefHeight="506.0" prefWidth="944.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="31.0" prefWidth="92.0" text="Search Album" />
-            <Pane prefHeight="66.0" prefWidth="1250.0">
+            <HBox alignment="CENTER" prefHeight="102.0" prefWidth="600.0">
                <children>
-                  <TextField layoutX="532.0" layoutY="26.0" onAction="#handleSearchAlbumTextFieldEvent" promptText="Album's name" />
-                  <Button layoutX="732.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleSearchAlbumButtonEvent" text="Search" />
+                  <TextField fx:id="titleTF" promptText="Search by Album's title" />
+                  <Button fx:id="searchalbumB" mnemonicParsing="false" onAction="#getAlbumSearchTest" text="Search Album" />
                </children>
-            </Pane>
-            <VBox prefHeight="449.0" prefWidth="944.0" />
+            </HBox>
+            <Button fx:id="returnB" mnemonicParsing="false" onAction="#handleReturnButtonEvent" text="Return to Menu" />
          </children>
       </VBox>
-   </center>
-   <bottom>
-      <TableView editable="true" prefHeight="746.0" prefWidth="1250.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn prefWidth="554.0" text="C1" />
-            <TableColumn minWidth="0.0" prefWidth="102.0" text="C2" />
-        </columns>
-      </TableView>
    </bottom>
+   <top>
+      <TableView fx:id="albumTable" prefHeight="697.0" prefWidth="1071.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="idC" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="genreC" prefWidth="75.0" text="Genre" />
+            <TableColumn fx:id="madebyC" prefWidth="75.0" text="Made By" />
+            <TableColumn fx:id="rateC" prefWidth="75.0" text="Rate" />
+         </columns>
+      </TableView>
+   </top>
 </BorderPane>

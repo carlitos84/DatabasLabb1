@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -12,15 +10,10 @@
    <bottom>
       <VBox alignment="CENTER" prefHeight="188.0" prefWidth="1071.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Rate">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
             <HBox alignment="CENTER" prefHeight="102.0" prefWidth="600.0">
                <children>
-                  <TextField fx:id="titleTF" promptText="Search by Album's title" />
-                  <Button fx:id="searchalbumB" mnemonicParsing="false" onAction="#getAlbumSearchTest" text="Search Album" />
+                  <TextField fx:id="albumtitleTF" promptText="Search by Album's title" />
+                  <Button fx:id="searchalbumB" mnemonicParsing="false" text="Search Album" />
                </children>
             </HBox>
             <Button fx:id="returnB" mnemonicParsing="false" onAction="#handleReturnButtonEvent" text="Return to Menu" />

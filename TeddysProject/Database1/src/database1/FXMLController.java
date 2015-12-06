@@ -53,7 +53,7 @@ public class FXMLController implements Initializable{
    @FXML
     private Label label;
     @FXML
-    private Button button;
+    private Button returnB;
    
     //Login scene:
     @FXML
@@ -97,12 +97,11 @@ public class FXMLController implements Initializable{
     @FXML
     private void handleSQLquestionSearchButtonEvent(ActionEvent event) throws IOException
     {
-           //här hämtas root och stage som vi sedan endast byter scener.
-            Parent SQLSearchParent = FXMLLoader.load(getClass().getResource("FXMLSearchPage.fxml"));
-            Scene SQLSearchScene = new Scene(SQLSearchParent);
-            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            mainStage.setScene(SQLSearchScene);
-            mainStage.show();    
+        Parent SQLSearchParent = FXMLLoader.load(getClass().getResource("FXMLSearch.fxml"));
+        Scene SQLSearchScene = new Scene(SQLSearchParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(SQLSearchScene);
+        mainStage.show();
     }
     
     @FXML
@@ -166,6 +165,31 @@ public class FXMLController implements Initializable{
     private void handleRateAlbumEvent(ActionEvent event)
     {
         
+    }
+    /*
+        Search scene:
+    */
+    
+    @FXML
+    private void handleSearchAButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLSearchArtist.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
+    }
+    
+    @FXML
+    private void handleSearchBButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLSearchAlbum.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
     }
     
     
@@ -314,6 +338,17 @@ public class FXMLController implements Initializable{
         TextField text = (TextField) event.getSource();
         date =  Integer.parseInt(text.getText());
         System.out.println(date);
+    }
+    
+    @FXML
+    private void handleReturnButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLSQL_scene.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
     }
     
     @Override

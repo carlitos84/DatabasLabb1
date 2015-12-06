@@ -6,35 +6,36 @@
 package Model;
 
 import java.util.ArrayList;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author Teddy
  */
 public class Artist {
-    private int ID;
-    private String name;
-    private String Nationality;
+    private SimpleStringProperty name, nationality;
+    private SimpleIntegerProperty id;
     
     public Artist(int id, String name, String nationality)
     {
-        this.ID = id;
-        this.name = name;
-        this.Nationality = nationality;
+        this.id = new SimpleIntegerProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.nationality = new SimpleStringProperty(nationality);
     }
     
     public int getID()
     {
-        return this.ID;
+        return id.get();
     }
     
     public String getName()
     {
-        return this.name;
+        return name.get();
     }
     
     public String getNationality()
     {
-        return this.Nationality;
+        return nationality.get();
     }     
 }

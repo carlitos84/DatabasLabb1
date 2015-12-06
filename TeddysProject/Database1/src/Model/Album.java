@@ -38,6 +38,10 @@ public class Album {
         return rate.get();
     }
     
+    public void setRate(String setrate) {
+        rate.set(setrate);
+    }
+    
     public String GetMadeBy() {
         return madeby.get();
     }

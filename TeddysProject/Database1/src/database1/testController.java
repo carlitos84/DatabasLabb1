@@ -6,7 +6,9 @@
 package database1;
 
 import Model.Album;
+import Model.Artist;
 import Model.ArtistDoesNotExistException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,12 +17,17 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  *
@@ -46,15 +53,22 @@ public class testController  implements Initializable {
     @FXML private TextField madebyTF;
     
     @FXML private Button addB;
+    
     private void initiateTable(String[] columns, ObservableList list, TableView tableview)
     {
         for(int i=0; i<columns.length;i++)
         {
-            titleC.setCellValueFactory(new PropertyValueFactory<Album,String>(columns[i]));
-            
+            titleC.setCellValueFactory(new PropertyValueFactory<Album,String>(columns[i]));           
         }
         list = FXCollections.observableArrayList();
         tableview.setItems(list);       
+    }
+    
+    @FXML
+    private void getAlbumSearchTest()
+    {
+        Album newalbum = new Album(1, "test","POP", "MJ");
+        albumList.add(newalbum);
     }
     
     private void initiateAlbumTable()
@@ -77,7 +91,6 @@ public class testController  implements Initializable {
         albumList.add(newalbum);
            
     }
-    
     
     //these 3 methods is from https://github.com/jarroba/Tablas-JavaFX--FXML-/blob/master/src/agendajarroba/VistaController.java and is modified after our situation.
     private final ListChangeListener<Album> focusAlbumTable = 
@@ -115,13 +128,22 @@ public class testController  implements Initializable {
         return null;
     }
     
+    @FXML
+    private void handleReturnButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLSQL_scene.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initiateAlbumTable();
-        
+        initiateAlbumTable(); 
         final ObservableList<Album> albumTableSelect = albumTable.getSelectionModel().getSelectedItems();
-        albumTableSelect.addListener(focusAlbumTable);
+        albumTableSelect.addListener(focusAlbumTable); 
     }
     
 }
