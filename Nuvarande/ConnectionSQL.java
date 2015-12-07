@@ -16,7 +16,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ConnectionSQL {
+public class ConnectionSQL implements InterfaceSQL {
     private String database, server, user, pwd;
     private Connection con;
     
@@ -52,6 +52,7 @@ public class ConnectionSQL {
      * @param searchString String that is matched with database
      * @return ArrayList<MadeBy> containing result of search.
      */
+    @Override
     public ArrayList<MadeBy> searchForString(String searchString){
       ArrayList<MadeBy> resultMadeByList = new ArrayList<>();
       int artistId, albumId;
@@ -164,6 +165,7 @@ public class ConnectionSQL {
      * @param name Artist name
      * @param nationality Artist Nationality
      */
+    @Override
     public void addArtist(String name, String nationality) {
         
                 
@@ -186,6 +188,10 @@ public class ConnectionSQL {
         }
     }
     
+    
+
+    
+            
     /**
      * Adds album to database based on parameters. Checks if artist and album 
      * already exists before and adding the album. 
@@ -196,14 +202,7 @@ public class ConnectionSQL {
      * @throws ArtistDoesNotExistException If artist doesn´t exist already in database
      *         
      */
-    /**
-     * 
-     * @param title
-     * @param genre
-     * @param artistName
-     * @param date
-     * @throws ArtistDoesNotExistException 
-     */
+    @Override
     public void addAlbum(String title, String genre, String artistName, int date) throws ArtistDoesNotExistException {
         
         if(!checkIfArtistExists(artistName) ) {
@@ -329,6 +328,7 @@ public class ConnectionSQL {
      * @param albumId The album id tobe rated
      * @param score User score for the album
      */
+    @Override
     public void rateAlbum(int userId, int albumId, int score) {
         
         try{
