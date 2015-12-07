@@ -1,3 +1,4 @@
+
 start transaction;
 
 create table T_User
@@ -19,7 +20,7 @@ create table T_Album
 K_Title varchar(25) unique,
 K_Genre varchar(25),
 K_Date integer not null,
-K_Rate integer default null,
+K_Rate float(1,1) default null,
 primary key (K_Id)
 );
 
@@ -33,7 +34,7 @@ foreign key (K_AlbumId) references T_Album(K_Id)
 create table T_Rate
 (K_User integer not null, 
 K_Album integer not null,
-K_Score float(1, 1) not null,
+K_Score int,
 foreign key (K_User) references T_User(K_Id),
 foreign key (K_Album) references T_Album(K_Id)
 );
@@ -48,13 +49,15 @@ foreign key (K_Artist) references T_Artist(K_Id),
 foreign key (K_Album) references T_Album(K_Id)
 );
 
+
 delimiter //
 CREATE TRIGGER update_score AFTER INSERT ON T_Rate
 FOR EACH ROW
 BEGIN
 	DECLARE x float;
-    SET x = (select avg(K_Score) from T_Album where K_Album like NEW.K_Album);
-	insert into T_Album(K_Score) value(x);
+    SET x = (select avg(K_Score) from T_Rate where K_Album like NEW.K_Album);
+	update T_Album set K_Rate = x where K_Id = NEW.K_Album;
 
 end //
+
 commit;
