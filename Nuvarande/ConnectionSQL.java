@@ -61,11 +61,17 @@ public class ConnectionSQL implements InterfaceSQL {
           Class.forName("com.mysql.jdbc.Driver");
           
           con = DriverManager.getConnection(server, user, pwd);
-          
-          String sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
+          String sql = "";
+          if(searchString.isEmpty())
+          {
+              sql = "select * from t_madeby";
+          }
+          else
+          {
+             sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
                        +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
-                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
-          
+                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))"; 
+          }          
           PreparedStatement searchDatabase = con.prepareStatement(sql);
           
           ResultSet rs = searchDatabase.executeQuery();
@@ -82,7 +88,7 @@ public class ConnectionSQL implements InterfaceSQL {
           return resultMadeByList;
           
           
-      }catch(Exception e) {}      
+      }catch(Exception e) {System.out.println("Error when searching");}      
       
       return resultMadeByList;
     }
@@ -307,7 +313,7 @@ public class ConnectionSQL implements InterfaceSQL {
             checkArtistExistance.setString(1, title);  
             
             ResultSet rs = checkArtistExistance.executeQuery();
-            
+            System.out.println("ASdf");
             boolean next = rs.next();
             if(rs.getInt(1) > 0) {
                 albumFound = true;
@@ -332,19 +338,27 @@ public class ConnectionSQL implements InterfaceSQL {
     public void rateAlbum(int userId, int albumId, int score) {
         
         try{
+            String sql;
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(server, user, pwd);
+            if(alreadyRated(con, userId, albumId) )
+            {
+                sql = "update T_Rate set k_Score = ? where K_User = ? and K_Album = ?";
+            }
+            else
+            {
+                sql = "insert into T_Rate(K_Score, K_User, K_Album) values(?, ?, ?)";
+            }
             
-            con.setAutoCommit(false);
-            String sql = "insert into T_Rate(K_User, K_Album, K_Score) values(?, ?, ?)";
+            
             PreparedStatement insertScoreSt = con.prepareStatement(sql);
-            insertScoreSt.setInt(1, userId);
+  
+            insertScoreSt.setInt(1, score);
             insertScoreSt.setInt(2, albumId);
-            insertScoreSt.setInt(3, score);
+            insertScoreSt.setInt(3, userId);
             
             int n = insertScoreSt.executeUpdate();
-            con.commit();
-            
+
         }catch(Exception e) {}
         finally {
             try {
@@ -352,6 +366,32 @@ public class ConnectionSQL implements InterfaceSQL {
                 con.close();
             }catch(SQLException e) {}
         } 
+    }
+    
+    private boolean alreadyRated(Connection con, int userId, int albumId) {
+        boolean alreadyRated = false;
+        
+
+        String sql = "Select count(K_User) from T_Rate where K_User = ? and K_Album = ?";
+        
+        try{
+            
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, userId);
+            st.setInt(2, albumId);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            
+            int n = rs.getInt(1);            
+            if(n > 0)
+            {
+                
+                alreadyRated = true;
+            }
+            
+        }catch(Exception e){}
+
+        return alreadyRated;
     }
     
     
