@@ -4,28 +4,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.test2Controller">
    <center>
-      <TableView prefHeight="249.0" prefWidth="680.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="artistTable" prefHeight="249.0" prefWidth="680.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="296.0" text="Name" />
-            <TableColumn prefWidth="205.0" text="Nationality" />
+          <TableColumn fx:id="artistidC" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="nameC" prefWidth="296.0" text="Name" />
+            <TableColumn fx:id="nationalityC" prefWidth="205.0" text="Nationality" />
         </columns>
       </TableView>
    </center>
    <bottom>
       <VBox alignment="CENTER" prefHeight="111.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="get Artists" />
+            <Button fx:id="getAlbumListB" mnemonicParsing="false" onAction="#getArtistInAdd" text="get Artists" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField promptText="Artist' name" />
-                  <TextField layoutX="193.0" layoutY="45.0" promptText="Artist' nationality" />
-                  <Button mnemonicParsing="false" text="Add" />
+                  <TextField fx:id="artistnameTF" promptText="Artist' name" />
+                  <TextField fx:id="artistnationalityTF" layoutX="193.0" layoutY="45.0" promptText="Artist' nationality" />
+                  <Button fx:id="addArtistB" mnemonicParsing="false" onAction="#addArtist" text="Add" />
                </children>
             </HBox>
+            <Button fx:id="returntomenuB" layoutX="433.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleReturnButtonEvent" text="return to menu" />
          </children>
       </VBox>
    </bottom>

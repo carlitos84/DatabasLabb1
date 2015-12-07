@@ -17,16 +17,8 @@
       </TableView>
    </center>
    <bottom>
-      <VBox alignment="CENTER" prefHeight="205.0" prefWidth="874.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="126.0" prefWidth="874.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="get Artists" />
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="874.0">
-               <children>
-                  <TextField promptText="Artist's name" />
-                  <TextField promptText="Nationality" />
-                  <Button layoutX="415.0" layoutY="10.0" mnemonicParsing="false" text="Add" />
-               </children>
-            </HBox>
             <Button fx:id="getAlbumB" mnemonicParsing="false" onAction="#getAlbumsInAdd" text="get Albums" />
             <HBox alignment="CENTER" prefHeight="37.0" prefWidth="1317.0">
                <children>

@@ -25,7 +25,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -48,11 +50,13 @@ public class test2Controller  implements Initializable {
     private int searchsolumnindex;
     
     @FXML private TextField artistnameTF;
-    @FXML private TextField albumtitleTF;
+    @FXML private TextField artistnationalityTF;
     
     @FXML private Button searchartistB;
     @FXML private Button searchalbumB;
     @FXML private Button returntomenuB;
+    @FXML private Button getAlbumListB;
+    @FXML private Button addArtistB;
     
     //för Album tabellen:
     
@@ -67,7 +71,32 @@ public class test2Controller  implements Initializable {
     }
     
     @FXML
-    private void getSearchTest()
+    private void getArtistInAdd()  //gives list of artist from the database
+    {
+        System.out.println("searchin artist...");
+        ArrayList<Artist> resultList = new ArrayList<>();
+            
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
+        resultList = con.searchForArtistByName("");
+        artistList.remove(0, artistList.size());
+        for(Artist m : resultList)
+        {
+            artistList.add(m);
+        }
+    }
+    
+    @FXML
+    private void addArtist()
+    {
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password       
+        con.addArtist(artistnameTF.getText(), artistnationalityTF.getText());
+        System.out.println(artistnameTF.getText() +" " + artistnationalityTF.getText());
+        getArtistInAdd();
+        
+    }
+    
+    @FXML
+    private void getSearchTest() 
     {
         artistList.remove(0, artistList.size()); //clears table
         
@@ -78,8 +107,20 @@ public class test2Controller  implements Initializable {
         
         resultList = con.searchForString(artistnameTF.getText());
         System.out.println(resultList.size());
-        artistList.add(resultList.get(0).getArist());
         
+        if(resultList.size() > 0)
+        {
+            artistList.add(resultList.get(0).getArist());
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"Artist does't exist or have a album");
+            alert.show();
+        }
+             
+        
+       
+        //artistList.add(resultList.get(0).getArist());
     }
     
     private final ListChangeListener<Artist> focusArtistTable = 
@@ -100,6 +141,7 @@ public class test2Controller  implements Initializable {
 
             // Pongo los textFields con los datos correspondientes
             artistnameTF.setText(tempartist.getName());
+            artistnationalityTF.setText(tempartist.getNationality());
         }
     }
      

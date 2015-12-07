@@ -9,45 +9,16 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.FXMLController">
-   <bottom>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Add new album" />
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TextField layoutX="182.0" layoutY="74.0" onAction="#handleAddAlbumTextFieldEvent" promptText="Album's name" />
-                  <Button layoutX="775.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleAddAlbumEventButton" text="Add" />
-                  <TextField layoutX="379.0" layoutY="74.0" onAction="#handleAddGenreTextFieldEvent" prefHeight="31.0" prefWidth="121.0" promptText="Album's genre" />
-                  <TextField layoutX="510.0" layoutY="74.0" onAction="#handleAddMadeByTextFieldEvent" prefHeight="31.0" prefWidth="121.0" promptText="Made by" />
-                  <TextField layoutX="642.0" layoutY="74.0" onAction="#handleAddDateTextFieldEvent" prefHeight="31.0" prefWidth="121.0" promptText="Today's date" />
-               </children>
-            </Pane>
-         </children>
-      </VBox>
-   </bottom>
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="19.0" prefWidth="944.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="TOP_CENTER" text="Add a new artist">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Label>
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TextField layoutX="189.0" layoutY="60.0" onAction="#handleAddArtistTextFieldEvent" promptText="Artist's name" />
-                  <Button layoutX="612.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleAddArtistEventButton" text="Add" />
-                  <TextField layoutX="393.0" layoutY="60.0" onAction="#handleAddArtistTextFieldEvent" promptText="Artist's nationality" />
-               </children>
-            </Pane>
+            <Button mnemonicParsing="false" onAction="#handleAddPageArtistButtonEvent" text="Add Artist" />
+            <Button mnemonicParsing="false" onAction="#handleAddPageAlbumButtonEvent" text="Add Album" />
          </children>
       </VBox>
    </center>
    <top>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="269.0" prefWidth="944.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Add to database">
                <font>

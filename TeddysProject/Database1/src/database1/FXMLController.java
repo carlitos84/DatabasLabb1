@@ -109,6 +109,26 @@ public class FXMLController implements Initializable{
     private void handleSQLquestionAddButtonEvent(ActionEvent event) throws IOException
     {
             //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLAddPage.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
+    }
+    @FXML
+    private void handleAddPageArtistButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
+            Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLAddArtist.fxml"));
+            Scene SQLAddScene = new Scene(SQLAddParent);
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage.setScene(SQLAddScene);
+            mainStage.show();
+    }
+    @FXML
+    private void handleAddPageAlbumButtonEvent(ActionEvent event) throws IOException
+    {
+            //här hämtas root och stage som vi sedan endast byter scener.
             Parent SQLAddParent = FXMLLoader.load(getClass().getResource("FXMLResultAdd.fxml"));
             Scene SQLAddScene = new Scene(SQLAddParent);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

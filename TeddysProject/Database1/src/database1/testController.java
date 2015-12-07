@@ -80,6 +80,7 @@ public class testController  implements Initializable {
             albumList.add(m.getAlbum());
         }
     }
+    
     @FXML
     private void getAlbumsInAdd()
     {
@@ -143,10 +144,7 @@ public class testController  implements Initializable {
             Alert alertbox = new Alert(Alert.AlertType.ERROR, e.toString()+"\nPlease add the new artist.", ButtonType.OK);
             alertbox.show();
         }
-        finally
-        {
-            System.out.println("in finlly");
-        }
+   
         
            
     }
