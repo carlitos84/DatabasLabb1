@@ -27,12 +27,12 @@ public class Album {
         this.rate = new SimpleFloatProperty(0);
     }
     
-    public Album(int id, String title, String genre, int setdate, float setrate){
+    public Album(int id, String title, String genre, int setdate, float setRate){
         this.id = new SimpleIntegerProperty(id);
         this.title = new SimpleStringProperty(title);
         this.genre = new SimpleStringProperty(genre);
         this.date = new SimpleIntegerProperty(setdate);
-        this.rate = new SimpleFloatProperty(setrate);
+        this.rate = new SimpleFloatProperty(setRate);
     }
     
     

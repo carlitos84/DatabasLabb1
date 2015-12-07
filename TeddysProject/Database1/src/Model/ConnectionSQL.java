@@ -55,8 +55,7 @@ public class ConnectionSQL implements InterfaceSQL {
     @Override
     public ArrayList<MadeBy> searchForString(String searchString){
       ArrayList<MadeBy> resultMadeByList = new ArrayList<>();
-      int artistId, albumId, date;
-
+      int artistId, albumId;
       
       try{
           Class.forName("com.mysql.jdbc.Driver");
@@ -65,14 +64,17 @@ public class ConnectionSQL implements InterfaceSQL {
           String sql = "";
           if(searchString.isEmpty())
           {
-              sql = "select * from t_madeby;";
+              sql = "select * from t_madeby";
           }
           else
           {
-             sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
-                        +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
-                        +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
-                         
+             sql =  "select K_ArtistId, K_AlbumId " +
+                    "from T_MadeBy " +
+                    "inner join T_Album on T_MadeBy.K_AlbumId = T_Album.K_Id " +
+                    "inner join T_Artist on T_MadeBy.K_ArtistId = T_Artist.K_id " +
+                    "where T_Artist.K_Name like '%"+searchString+"%' " +
+                    "or T_Album.K_Title like '%"+searchString+"%' " +
+                    "or T_Album.K_Genre like '%"+searchString+"%'"; 
           }          
           PreparedStatement searchDatabase = con.prepareStatement(sql);
           
@@ -81,7 +83,6 @@ public class ConnectionSQL implements InterfaceSQL {
           while(rs.next()) {
               artistId = rs.getInt(1);
               Artist artistTmp = getArtistById(con, artistId);
-              
               albumId = rs.getInt(2);
               Album albumTmp = getAlbumById(con, albumId);              
               resultMadeByList.add(new MadeBy(artistTmp, albumTmp));
@@ -152,17 +153,7 @@ public class ConnectionSQL implements InterfaceSQL {
             con = DriverManager.getConnection(server, user, pwd);
             
             Statement st = con.createStatement();
-            String sql = "";
-            if(searchString.isEmpty())
-          {
-              sql = "Select * from T_Artist;";
-          }
-          else
-          {
-              sql = "Select * from T_Artist where K_Name = " +"\"" +searchString +"\";";
-          }   
-            
-            
+            String sql = "Select * from T_Artist where K_Name = " +"\"" +searchString +"\";";
             ResultSet rs = st.executeQuery(sql);
             
             while(rs.next() ) {
@@ -381,6 +372,8 @@ public class ConnectionSQL implements InterfaceSQL {
         } 
     }
     
+    
+    
     private boolean alreadyRated(Connection con, int userId, int albumId) {
         boolean alreadyRated = false;
         
@@ -405,6 +398,15 @@ public class ConnectionSQL implements InterfaceSQL {
         }catch(Exception e){}
 
         return alreadyRated;
+    }
+    
+    /**
+     * Closes Connection to database. Should be closed before exiting application.
+     */
+    public void closeConnection() {
+        try{
+            con.close();
+        }catch(Exception e) {}
     }
     
     
