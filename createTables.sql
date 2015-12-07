@@ -60,5 +60,15 @@ BEGIN
 	update T_Album set K_Rate = x where K_Id = NEW.K_Album;
 
 end //
+delimiter;
+delimiter //
+
+CREATE TRIGGER update_score_on_modify AFTER UPDATE ON T_Rate
+FOR EACH ROW
+BEGIN
+	DECLARE x float;
+    SET x = (select avg(K_Score) from T_Rate where K_Album like NEW.K_Album);
+	update T_Album set K_Rate = x where K_Id = NEW.K_Album;
+end //
 
 commit;

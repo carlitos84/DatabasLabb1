@@ -9,7 +9,7 @@ GRANT SELECT(K_Title, K_Genre, K_Date, K_Rate), INSERT(K_Title, K_Genre, K_Date)
 /*Artist rights*/
 GRANT SELECT, INSERT ON T_Artist TO 'clientapp'@'%';
 
-GRANT SELECT, UPDATE ON T_Rate TO 'clientapp'@'%';
+GRANT SELECT, UPDATE, INSERT ON T_Rate TO 'clientapp'@'%';
 GRANT SELECT, INSERT ON T_MadeBy TO 'clientapp'@'%';
 GRANT INSERT ON T_Storage TO 'clientapp'@'%';
 
