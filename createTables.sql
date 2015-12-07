@@ -36,7 +36,8 @@ create table T_Rate
 K_Album integer not null,
 K_Score int,
 foreign key (K_User) references T_User(K_Id),
-foreign key (K_Album) references T_Album(K_Id)
+foreign key (K_Album) references T_Album(K_Id),
+primary key(K_User, K_Album)
 );
 
 
