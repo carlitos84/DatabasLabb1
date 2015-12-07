@@ -10,9 +10,9 @@
    <bottom>
       <VBox alignment="CENTER" prefHeight="188.0" prefWidth="1071.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="102.0" prefWidth="600.0">
+            <HBox alignment="CENTER" prefHeight="36.0" prefWidth="1071.0">
                <children>
-                  <TextField fx:id="titleTF" promptText="Search by Album's title" />
+                  <TextField fx:id="titleTF" promptText="Search by title or genre or rate" />
                   <Button fx:id="searchalbumB" mnemonicParsing="false" onAction="#getAlbumSearch" text="Search Album" />
                </children>
             </HBox>

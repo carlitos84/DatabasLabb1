@@ -5,6 +5,7 @@
  */
 package Model;
 
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -14,7 +15,8 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Album {    
     private SimpleStringProperty title, genre, madeby ;
-    private SimpleIntegerProperty id, date,rate;
+    private SimpleIntegerProperty id, date;
+    private SimpleFloatProperty rate;
    
     
     public Album(int id, String title, String genre, int setdate){
@@ -22,14 +24,15 @@ public class Album {
         this.title = new SimpleStringProperty(title);
         this.genre = new SimpleStringProperty(genre);
         this.date = new SimpleIntegerProperty(setdate);
-        this.rate = new SimpleIntegerProperty(0);
+        this.rate = new SimpleFloatProperty(0);
     }
     
-    public Album(String title, String genre, int setdate){
+    public Album(int id, String title, String genre, int setdate, float setrate){
+        this.id = new SimpleIntegerProperty(id);
         this.title = new SimpleStringProperty(title);
         this.genre = new SimpleStringProperty(genre);
         this.date = new SimpleIntegerProperty(setdate);
-        this.rate = new SimpleIntegerProperty(0);
+        this.rate = new SimpleFloatProperty(setrate);
     }
     
     
@@ -42,7 +45,7 @@ public class Album {
     public String getGenre(){
         return genre.get();
     }    
-    public int getRate() {
+    public float getRate() {
         return rate.get();
     } 
     
@@ -54,13 +57,10 @@ public class Album {
         return date.get();
     }
 
-    public void setRate(int setrate) {
+    public void setRate(float setrate) {
         rate.set(setrate);
     }
     
-    public void getRate(int setrate) {
-        rate.get();
-    }
     
     public String GetMadeBy() {
         return madeby.get();

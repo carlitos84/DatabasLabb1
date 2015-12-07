@@ -67,55 +67,73 @@ public class testController  implements Initializable {
     @FXML
     private void getAlbumSearch()
     {
-        albumList.remove(0, albumList.size()); //clears table
-        System.out.println("searchin artist...");
-        ArrayList<MadeBy> resultList = new ArrayList<>();
-            
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
-        
-        resultList = con.searchForString(titleTF.getText());      
-        
-        for(MadeBy m : resultList)
+        new Thread()
         {
-            albumList.add(m.getAlbum());
-        }
+            @Override
+            public void run()
+            {
+                albumList.remove(0, albumList.size()); //clears table
+                ArrayList<MadeBy> resultList = new ArrayList<>();
+            
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+
+                resultList = con.searchForString(titleTF.getText());
+                for(MadeBy m : resultList)
+                {
+                    albumList.add(m.getAlbum());
+                }
+            }
+        }.start();  
     }
     
     @FXML
     private void getAlbumsInAdd()
     {
-        System.out.println("searchin artist...");
-        ArrayList<MadeBy> resultList = new ArrayList<>();
-            
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
-        resultList = con.searchForString("");
-        albumList.remove(0, albumList.size());
-        for(MadeBy m : resultList)
+        new Thread()
         {
-            albumList.add(m.getAlbum());
-        }
+            @Override
+            public void run()
+            {
+                
+                System.out.println("searchin artist...");
+                ArrayList<MadeBy> resultList = new ArrayList<>();
+
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
+                resultList = con.searchForString("");
+                albumList.remove(0, albumList.size());
+                for(MadeBy m : resultList)
+                {
+                    albumList.add(m.getAlbum());
+                }
+            }
+        }.start();   
+        
     }
     
     @FXML
     private void setRateToAlbum()
     {
-        System.out.println("rating artist...");
-        ArrayList<MadeBy> resultList = new ArrayList<>();
         
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
-        
-        resultList = con.searchForString(titleTF.getText());
-        System.out.println(titleTF.getText());
-        System.out.println(rateTF.getText());
-        for(MadeBy m : resultList)
+        new Thread()
         {
-            int rate = Integer.parseInt(rateTF.getText());
-            m.getAlbum().setRate( rate );
-           
-            albumList.add(m.getAlbum());
-        }
-        
-        
+            @Override
+            public void run()
+            {            
+                ArrayList<MadeBy> resultList = new ArrayList<>();
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+                resultList = con.searchForString(titleTF.getText());
+                System.out.println("albumid:"+resultList.get(0).getAlbum().getID() + "\nrate: "+rateTF.getText());
+                if(resultList.size()>0)
+                {
+                    con.rateAlbum(1, resultList.get(0).getAlbum().getID(), Integer.parseInt(rateTF.getText()) );
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"Album doesn't exist",ButtonType.OK);
+                    alert.show();
+                }       
+            }
+        }.start();    
     }
     
     private void initiateAlbumTable()
@@ -134,19 +152,24 @@ public class testController  implements Initializable {
     @FXML
     private void handleAddAlbumButton(ActionEvent event) throws ArtistDoesNotExistException
     {
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
-        try{
-            con.addAlbum(titleTF.getText(), genreTF.getText(), madeByTF.getText(), Integer.parseInt(dateTF.getText()) );
-            System.out.println(madeByTF.getText());
-            getAlbumsInAdd();
-        }
-        catch(ArtistDoesNotExistException e){
-            Alert alertbox = new Alert(Alert.AlertType.ERROR, e.toString()+"\nPlease add the new artist.", ButtonType.OK);
-            alertbox.show();
-        }
-   
-        
-           
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+                try{
+                        con.addAlbum(titleTF.getText(), genreTF.getText(), madeByTF.getText(), Integer.parseInt(dateTF.getText()) );
+                        System.out.println(madeByTF.getText());
+                        getAlbumsInAdd();
+                    }
+                        catch(ArtistDoesNotExistException e){
+                        Alert alertbox = new Alert(Alert.AlertType.ERROR, e.toString()+"\nPlease add the new artist.", ButtonType.OK);
+                        alertbox.show();
+                    }
+            }
+
+        }.start();    
     }
     
     //these 3 methods is from https://github.com/jarroba/Tablas-JavaFX--FXML-/blob/master/src/agendajarroba/VistaController.java and is modified after our situation.

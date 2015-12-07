@@ -55,7 +55,8 @@ public class ConnectionSQL implements InterfaceSQL {
     @Override
     public ArrayList<MadeBy> searchForString(String searchString){
       ArrayList<MadeBy> resultMadeByList = new ArrayList<>();
-      int artistId, albumId;
+      int artistId, albumId, date;
+
       
       try{
           Class.forName("com.mysql.jdbc.Driver");
@@ -69,8 +70,9 @@ public class ConnectionSQL implements InterfaceSQL {
           else
           {
              sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
-                       +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
-                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))"; 
+                        +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
+                        +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
+                         
           }          
           PreparedStatement searchDatabase = con.prepareStatement(sql);
           
@@ -79,6 +81,7 @@ public class ConnectionSQL implements InterfaceSQL {
           while(rs.next()) {
               artistId = rs.getInt(1);
               Artist artistTmp = getArtistById(con, artistId);
+              
               albumId = rs.getInt(2);
               Album albumTmp = getAlbumById(con, albumId);              
               resultMadeByList.add(new MadeBy(artistTmp, albumTmp));
@@ -127,7 +130,7 @@ public class ConnectionSQL implements InterfaceSQL {
             ResultSet rs = getArtist.executeQuery();
             
             if(rs.next() )  {
-                resultAlbum = new Album(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                resultAlbum = new Album(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5));
             }
                 
         }catch(Exception e) { }
@@ -364,8 +367,8 @@ public class ConnectionSQL implements InterfaceSQL {
             PreparedStatement insertScoreSt = con.prepareStatement(sql);
   
             insertScoreSt.setInt(1, score);
-            insertScoreSt.setInt(2, albumId);
-            insertScoreSt.setInt(3, userId);
+            insertScoreSt.setInt(2, userId);
+            insertScoreSt.setInt(3, albumId);
             
             int n = insertScoreSt.executeUpdate();
 

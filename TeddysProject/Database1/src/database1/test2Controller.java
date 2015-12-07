@@ -73,54 +73,67 @@ public class test2Controller  implements Initializable {
     @FXML
     private void getArtistInAdd()  //gives list of artist from the database
     {
-        System.out.println("searchin artist...");
-        ArrayList<Artist> resultList = new ArrayList<>();
-            
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
-        resultList = con.searchForArtistByName("");
-        artistList.remove(0, artistList.size());
-        for(Artist m : resultList)
+        new Thread()
         {
-            artistList.add(m);
-        }
+            @Override
+            public void run()
+            {
+                ArrayList<Artist> resultList = new ArrayList<>();
+            
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
+                resultList = con.searchForArtistByName("");
+                artistList.remove(0, artistList.size());
+                for(Artist m : resultList)
+                {
+                    artistList.add(m);
+                }
+            }
+        }.start();   
     }
     
     @FXML
     private void addArtist()
     {
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password       
-        con.addArtist(artistnameTF.getText(), artistnationalityTF.getText());
-        System.out.println(artistnameTF.getText() +" " + artistnationalityTF.getText());
-        getArtistInAdd();
-        
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password       
+                con.addArtist(artistnameTF.getText(), artistnationalityTF.getText());
+                System.out.println(artistnameTF.getText() +" " + artistnationalityTF.getText());
+                getArtistInAdd();
+            }
+
+        }.start();  
     }
     
     @FXML
     private void getSearchTest() 
     {
-        artistList.remove(0, artistList.size()); //clears table
-        
-        System.out.println("searchin artist...");
-        ArrayList<MadeBy> resultList = new ArrayList<>();
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                ArrayList<MadeBy> resultList = new ArrayList<>();
             
-        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
-        
-        resultList = con.searchForString(artistnameTF.getText());
-        System.out.println(resultList.size());
-        
-        if(resultList.size() > 0)
-        {
-            artistList.add(resultList.get(0).getArist());
-        }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR,"Artist does't exist or have a album");
-            alert.show();
-        }
-             
-        
-       
-        //artistList.add(resultList.get(0).getArist());
+                ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+
+                resultList = con.searchForString(artistnameTF.getText());
+                System.out.println(resultList.size());
+
+                if(resultList.size() > 0)
+                {
+                    artistList.add(resultList.get(0).getArist());
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"Artist does't exist or have a album");
+                    alert.show();
+                }
+            }
+        }.start();  
     }
     
     private final ListChangeListener<Artist> focusArtistTable = 
@@ -139,7 +152,7 @@ public class test2Controller  implements Initializable {
 
         if (tempartist != null) {
 
-            // Pongo los textFields con los datos correspondientes
+            
             artistnameTF.setText(tempartist.getName());
             artistnationalityTF.setText(tempartist.getNationality());
         }

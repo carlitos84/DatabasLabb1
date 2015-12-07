@@ -50,6 +50,9 @@ public class FXMLController implements Initializable{
     private String nationality;
     private int date;
     
+    @FXML private TextField usernameTF;
+    @FXML private TextField passwordTF;
+    
        
    @FXML
     private Label label;
@@ -160,12 +163,6 @@ public class FXMLController implements Initializable{
         }
         else
         {
-            
-            
-            ConnectionSQL con = new ConnectionSQL(username, password);
-            //con.searchForArt
-            //searxh album
-           
             Parent SQLRateParent = FXMLLoader.load(getClass().getResource("FXMLRatePage.fxml"));
             Scene SQLRateScene = new Scene(SQLRateParent);
             Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
