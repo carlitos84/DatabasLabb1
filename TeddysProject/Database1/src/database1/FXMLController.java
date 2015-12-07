@@ -9,6 +9,7 @@ import Model.Album;
 import Model.Artist;
 import Model.ArtistDoesNotExistException;
 import Model.ConnectionSQL;
+import Model.MadeBy;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -139,9 +140,10 @@ public class FXMLController implements Initializable{
         }
         else
         {
-            ArrayList<Album> resultList;
+            
             
             ConnectionSQL con = new ConnectionSQL(username, password);
+            //con.searchForArt
             //searxh album
            
             Parent SQLRateParent = FXMLLoader.load(getClass().getResource("FXMLRatePage.fxml"));
@@ -194,7 +196,7 @@ public class FXMLController implements Initializable{
     
     
     /*
-        Search object scene:
+        Search Artist scene:
     */
      @FXML
     private void handleSearchArtistButtonEvent(ActionEvent event)
@@ -205,10 +207,10 @@ public class FXMLController implements Initializable{
         }
         else
         {
-            ArrayList<Artist> resultList;
+            ArrayList<MadeBy> resultList;
             
             ConnectionSQL con = new ConnectionSQL(username, password);
-            resultList = con.searchForArtistByName(artist);
+            resultList = con.searchForString(artist);
             
             System.out.print(resultList.toString());
             System.out.println("Searching...");
@@ -222,6 +224,10 @@ public class FXMLController implements Initializable{
         artist = text.getText();
         System.out.println(artist);
     }
+    
+    /*
+        Search Artist scene:
+    */
     
     @FXML
     private void handleSearchAlbumButtonEvent(ActionEvent event)

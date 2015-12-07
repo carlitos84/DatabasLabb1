@@ -12,8 +12,8 @@
          <children>
             <HBox alignment="CENTER" prefHeight="102.0" prefWidth="600.0">
                <children>
-                  <TextField fx:id="albumtitleTF" promptText="Search by Album's title" />
-                  <Button fx:id="searchalbumB" mnemonicParsing="false" text="Search Album" />
+                  <TextField fx:id="titleTF" promptText="Search by Album's title" />
+                  <Button fx:id="searchalbumB" mnemonicParsing="false" onAction="#getAlbumSearch" text="Search Album" />
                </children>
             </HBox>
             <Button fx:id="returnB" mnemonicParsing="false" onAction="#handleReturnButtonEvent" text="Return to Menu" />
@@ -26,7 +26,7 @@
             <TableColumn fx:id="idC" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
             <TableColumn fx:id="genreC" prefWidth="75.0" text="Genre" />
-            <TableColumn fx:id="madebyC" prefWidth="75.0" text="Made By" />
+            <TableColumn fx:id="dateC" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="rateC" prefWidth="75.0" text="Rate" />
          </columns>
       </TableView>

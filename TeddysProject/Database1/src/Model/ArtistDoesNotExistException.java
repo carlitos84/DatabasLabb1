@@ -16,7 +16,7 @@ public class ArtistDoesNotExistException extends Exception{
         this.artist = artist;
     }
     
-    public String toString(String artist) {
+    public String toString() {
         return "The artist " +artist +" does not exist.";
     }
 }

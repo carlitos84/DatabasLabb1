@@ -8,8 +8,11 @@ package database1;
 import Model.Album;
 import Model.Artist;
 import Model.ArtistDoesNotExistException;
+import Model.ConnectionSQL;
+import Model.MadeBy;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,7 +25,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -42,7 +47,8 @@ public class testController  implements Initializable {
     @FXML private TableColumn titleC;
     @FXML private TableColumn genreC;
     @FXML private TableColumn rateC;
-    @FXML private TableColumn madebyC;
+    @FXML private TableColumn dateC;
+    @FXML private TableColumn dateSearchC;
     
     ObservableList<Album> albumList;
     private int columnindex;
@@ -50,32 +56,73 @@ public class testController  implements Initializable {
     @FXML private TextField titleTF;
     @FXML private TextField genreTF;
     @FXML private TextField rateTF;
-    @FXML private TextField madebyTF;
-    
+    @FXML private TextField dateTF;
+    @FXML private TextField madeByTF;
+ 
     @FXML private Button addB;
-    
-    private void initiateTable(String[] columns, ObservableList list, TableView tableview)
+    @FXML private Button searchalbumB;
+    @FXML private Button rateB;
+    @FXML private Button getAlbumB;
+     
+    @FXML
+    private void getAlbumSearch()
     {
-        for(int i=0; i<columns.length;i++)
+        albumList.remove(0, albumList.size()); //clears table
+        System.out.println("searchin artist...");
+        ArrayList<MadeBy> resultList = new ArrayList<>();
+            
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+        
+        resultList = con.searchForString(titleTF.getText());      
+        
+        for(MadeBy m : resultList)
         {
-            titleC.setCellValueFactory(new PropertyValueFactory<Album,String>(columns[i]));           
+            albumList.add(m.getAlbum());
         }
-        list = FXCollections.observableArrayList();
-        tableview.setItems(list);       
+    }
+    @FXML
+    private void getAlbumsInAdd()
+    {
+        System.out.println("searchin artist...");
+        ArrayList<MadeBy> resultList = new ArrayList<>();
+            
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password        
+        resultList = con.searchForString("");
+        albumList.remove(0, albumList.size());
+        for(MadeBy m : resultList)
+        {
+            albumList.add(m.getAlbum());
+        }
     }
     
     @FXML
-    private void getAlbumSearchTest()
+    private void setRateToAlbum()
     {
-        Album newalbum = new Album(1, "test","POP", "MJ");
-        albumList.add(newalbum);
+        System.out.println("rating artist...");
+        ArrayList<MadeBy> resultList = new ArrayList<>();
+        
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+        
+        resultList = con.searchForString(titleTF.getText());
+        System.out.println(titleTF.getText());
+        System.out.println(rateTF.getText());
+        for(MadeBy m : resultList)
+        {
+            int rate = Integer.parseInt(rateTF.getText());
+            m.getAlbum().setRate( rate );
+           
+            albumList.add(m.getAlbum());
+        }
+        
+        
     }
     
     private void initiateAlbumTable()
     {
         titleC.setCellValueFactory(new PropertyValueFactory<Album,String>("Title"));
         genreC.setCellValueFactory(new PropertyValueFactory<Album,String>("Genre"));
-        madebyC.setCellValueFactory(new PropertyValueFactory<Album,String>("Made By"));
+        dateC.setCellValueFactory(new PropertyValueFactory<Album,String>("Date"));
+        //dateSearchC.setCellValueFactory(new PropertyValueFactory<Album,String>("Date"));
         idC.setCellValueFactory(new PropertyValueFactory<Album,String>("ID"));
         rateC.setCellValueFactory(new PropertyValueFactory<Album,String>("Rate"));
         
@@ -86,9 +133,21 @@ public class testController  implements Initializable {
     @FXML
     private void handleAddAlbumButton(ActionEvent event) throws ArtistDoesNotExistException
     {
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+        try{
+            con.addAlbum(titleTF.getText(), genreTF.getText(), madeByTF.getText(), Integer.parseInt(dateTF.getText()) );
+            System.out.println(madeByTF.getText());
+            getAlbumsInAdd();
+        }
+        catch(ArtistDoesNotExistException e){
+            Alert alertbox = new Alert(Alert.AlertType.ERROR, e.toString()+"\nPlease add the new artist.", ButtonType.OK);
+            alertbox.show();
+        }
+        finally
+        {
+            System.out.println("in finlly");
+        }
         
-        Album newalbum = new Album(1, titleTF.getText(), genreTF.getText(), madebyTF.getText());
-        albumList.add(newalbum);
            
     }
     
@@ -111,9 +170,13 @@ public class testController  implements Initializable {
 
             // Pongo los textFields con los datos correspondientes
             titleTF.setText(tempalbum.getTitle());
-            madebyTF.setText(tempalbum.GetMadeBy());
+            dateTF.setText(String.valueOf(tempalbum.getDate()));
             genreTF.setText(tempalbum.getGenre());
-            rateTF.setText(tempalbum.getRate());
+            rateTF.setText(String.valueOf(tempalbum.getRate()));
+            //test:
+            madeByTF.setText(tempalbum.GetMadeBy());
+            
+            //end
         }
     }
      

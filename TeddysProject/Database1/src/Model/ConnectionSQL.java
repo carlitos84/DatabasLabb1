@@ -60,11 +60,17 @@ public class ConnectionSQL {
           Class.forName("com.mysql.jdbc.Driver");
           
           con = DriverManager.getConnection(server, user, pwd);
-          
-          String sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
+          String sql = "";
+          if(searchString.isEmpty())
+          {
+              sql = "select * from t_madeby";
+          }
+          else
+          {
+             sql = "select K_ArtistId, K_AlbumId from T_MadeBy where " 
                        +"(K_ArtistId = (Select K_Id from T_Artist where K_Name like '%"+searchString +"%')) or " 
-                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))";
-          
+                       +"(K_AlbumId = (Select K_Id from T_Album where K_Title like '%"+searchString +"%'))"; 
+          }          
           PreparedStatement searchDatabase = con.prepareStatement(sql);
           
           ResultSet rs = searchDatabase.executeQuery();
@@ -81,7 +87,7 @@ public class ConnectionSQL {
           return resultMadeByList;
           
           
-      }catch(Exception e) {}      
+      }catch(Exception e) {System.out.println("Error when searching");}      
       
       return resultMadeByList;
     }

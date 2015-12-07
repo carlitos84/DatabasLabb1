@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="866.0" prefWidth="1317.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.testController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="database1.testController">
    <center>
       <TableView fx:id="albumTable" prefHeight="699.0" prefWidth="1317.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="idC" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
             <TableColumn fx:id="genreC" prefWidth="75.0" text="Genre" />
-            <TableColumn fx:id="madebyC" prefWidth="75.0" text="Made By" />
+            <TableColumn fx:id="dateC" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="rateC" prefWidth="75.0" text="Rate" />
         </columns>
       </TableView>
    </center>
    <bottom>
-      <VBox alignment="CENTER" prefHeight="148.0" prefWidth="1317.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="205.0" prefWidth="874.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Button mnemonicParsing="false" text="get Artists" />
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="874.0">
+               <children>
+                  <TextField promptText="Artist's name" />
+                  <TextField promptText="Nationality" />
+                  <Button layoutX="415.0" layoutY="10.0" mnemonicParsing="false" text="Add" />
+               </children>
+            </HBox>
+            <Button fx:id="getAlbumB" mnemonicParsing="false" onAction="#getAlbumsInAdd" text="get Albums" />
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="1317.0">
                <children>
                   <TextField fx:id="titleTF" promptText="Title" />
                   <TextField fx:id="genreTF" promptText="Genre" />
-                  <TextField fx:id="madebyTF" promptText="Made by" />
-                  <TextField fx:id="rateTF" promptText="Rate" />
+                  <TextField fx:id="dateTF" promptText="date" />
+                  <TextField fx:id="madeByTF" promptText="Artist" />
                   <Button fx:id="addB" mnemonicParsing="false" onAction="#handleAddAlbumButton" text="Add" />
                </children>
             </HBox>

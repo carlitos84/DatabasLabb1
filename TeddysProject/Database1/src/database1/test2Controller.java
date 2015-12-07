@@ -8,8 +8,11 @@ package database1;
 import Model.Album;
 import Model.Artist;
 import Model.ArtistDoesNotExistException;
+import Model.ConnectionSQL;
+import Model.MadeBy;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -66,8 +69,17 @@ public class test2Controller  implements Initializable {
     @FXML
     private void getSearchTest()
     {
-        Artist newartist = new Artist(1, artistnameTF.getText(), "USA");
-        artistList.add(newartist);
+        artistList.remove(0, artistList.size()); //clears table
+        
+        System.out.println("searchin artist...");
+        ArrayList<MadeBy> resultList = new ArrayList<>();
+            
+        ConnectionSQL con = new ConnectionSQL("clientapp", "qwerty"); //koppla till username och password
+        
+        resultList = con.searchForString(artistnameTF.getText());
+        System.out.println(resultList.size());
+        artistList.add(resultList.get(0).getArist());
+        
     }
     
     private final ListChangeListener<Artist> focusArtistTable = 
